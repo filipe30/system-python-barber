@@ -2,15 +2,44 @@ from tkinter import *
 from tkinter import  PhotoImage
 import sqlite3
 from tkinter import messagebox
-import datetime
+from time import strftime
+from datetime import date
 from subprocess import call
 
+hj = date.today()
+dias = ('Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado', 'Domingo')
+mes = {1:'janeiro', 2:'fevereiro', 3:'março',  4:'abril', 5:'maio', 6:'junho', 7:'julho', 8:'agosto', 9:'setembro', 10:'outubro', 11:'novembro', 12:'desembro'}
+janela = Tk()
+dia_la = Label(janela,text=(dias[hj.weekday()]+','+ ' '+ str(hj.day)+' '+'de'+' '+str(mes[hj.month])+' '+'de'+' '+str(hj.year)), font='Helvita 50 bold', fg='blue')
+dia_la.place(x=200, y=750)
 
 
-date = datetime.datetime.now().date().strftime('%d/%m/%Y')
-hour = datetime.datetime.now().time().strftime('%H:%M')
+rel = Label(janela,font= 'Helvita 50 bold', fg= 'blue')
+rel.place(x=1325,y=750)
+def contador(): # funcao contador
+        agora =  strftime('%H:%M:%S')
+        if rel['text'] != agora:
+                rel['text'] = agora
+        rel.after(100, contador)
+contador()
 
+welcome = Label(janela,text=['text'], font= 'Helvita 60 bold', fg= 'blue')
+welcome.place(x=230, y=200)
+def upwel():
+    agora = strftime('%H:%M:%S')
+    if agora <= str(12):
+        welcome['text'] = ('Bom Dia !')
+    elif agora <= str(18):
+        welcome['text'] = ('Boa Tarde !')
+    else:
+        welcome['text'] = ('Boa Noite !')
+    welcome.after(100, upwel)
+upwel()
 
+janela.title('Sistema Salão')
+janela.state('zoomed')
+janela.config()
+janela.geometry('900x600')
 
 
 class Aplication:
@@ -23,7 +52,6 @@ class Aplication:
 
         self.label1 = Label(master, text='Barber Shop', font=('arial', 55, 'bold'))
         self.label1.pack()
-
 
 
         self.caixa = Button(self.frame1, text='Caixa', fg='#f97303',bg='#505157',
@@ -44,7 +72,7 @@ class Aplication:
 
         self.cadfornec = Button(self.frame1, text='Cadastro\nFornecedor', fg='#f97303', bg='#505157',
                                 bd=10, relief='raise', width=12, height=2,
-                                font=('comic sans ms', 15, 'bold'), ).place(x=10, y=490)
+                                font=('comic sans ms', 15, 'bold'),command=self.cadfornecedor ).place(x=10, y=490)
 
         self.aniversario = Button(self.frame1, text='Aniversários', fg='#f97303', bg='#505157',
                                 bd=10, relief='raise', width=12, height=2,
@@ -54,10 +82,12 @@ class Aplication:
                                 bd=10, relief='raise', width=12, height=2,
                                 font=('comic sans ms', 15, 'bold'), ).place(x=10, y=730)
 
+
         self.foto = PhotoImage(file='img.gif')
         self.foto = self.foto.subsample(1, 1)
         self.label = Label(master, image=self.foto)
         self.label.pack()
+
 
     def home_caixa(self):
         call(['python','home_caixa.py'])
@@ -71,10 +101,10 @@ class Aplication:
     def cadcliente(self):
         call(['python','cad_cliente.py'])
 
-janela = Tk()
+    def cadfornecedor(self):
+        call(['python','cad_fornecedor.py'])
+
+
+
 app = Aplication(janela)
-janela.title('Sistema Salão')
-janela.state('zoomed')
-janela.config()
-janela.geometry('900x600')
 janela.mainloop()

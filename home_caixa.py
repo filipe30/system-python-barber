@@ -7,7 +7,7 @@ from subprocess import call
 from tkinter.ttk import Combobox
 
 
-class Aplication:
+class Caixa:
     def __init__(self, master, *args, **kwargs):
         self.master = master
 
@@ -52,12 +52,12 @@ class Aplication:
         self.la_vup = Label(master, text='Valor Unitário Produtos', font=('arial 10 bold'))
         self.la_vup.place(x=470, y=125)
 
-        self.e_desc = Entry(master, width=6, font=('arial 40 bold'), bd=1, relief="solid")
+        self.e_desc = Entry(master,  width=6, font=('arial 40 bold'), bd=1, relief="solid")
         self.e_desc.place(x=670, y=150)
         self.la_vup = Label(master, text='Desconto', font=('arial 10 bold'))
         self.la_vup.place(x=670, y=125)
 
-        self.e_prc = Entry(master, width=6, font=('arial 40 bold'), bd=1, relief="solid")
+        self.e_prc = Entry(master, width=6,font=('arial 40 bold'), bd=1, relief="solid")
         self.e_prc.place(x=870, y=150)
         self.la_vup = Label(master, text='Valor Total Produtos', font=('arial 10 bold'))
         self.la_vup.place(x=870, y=125)
@@ -67,7 +67,7 @@ class Aplication:
 
 
         self.new_vend = Button(master, text='Nova Venda', bg='#f17215',
-                               bd=2, relief='raise', width=15, height=2)
+                               bd=2, relief='raise', width=15, height=2, command=self.novavenda)
         self.new_vend.place(x=30, y=650)
         self.vend = Button(master, text='Vendas', bg='#f17215',
                                  bd=2, relief='raise', width=15, height=2, )
@@ -92,10 +92,12 @@ class Aplication:
         self.la_total.place(x=50, y=720)
 
 
+    def novavenda(self):
+        call(['python','nova_venda.py'])
 
 
 janela = Tk()
-app = Aplication(janela)
+app = Caixa(janela)
 janela.title('Sistema Salão')
 janela.state('zoomed')
 janela.config()
