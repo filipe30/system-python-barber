@@ -15,132 +15,131 @@ for r in result:
 
 
 
-class DataBase:
-    def __init__(self, master, * args, **kw):
+class Agenda:
+    def __init__(self, master):
         self.master = master
 
         self.frame1 = Frame(master, width=1000, height=50,
                             bg='#222125', bd=1, relief='raise')
         self.frame1.pack(side=TOP)
-        self.frame1 = Frame(master, width=1000, height=50,
+        self.frame2 = Frame(master, width=1000, height=50,
                             bg='#222125', bd=1, relief='raise')
-        self.frame1.pack(side=BOTTOM)
+        self.frame2.pack(side=BOTTOM)
 
 
-        self.label1 = Label(master, text='Agendamento', font=('arial', 25, 'bold'))
-        self.label1.place(x=30, y=60)
-
-        self.e_pesq = Entry(master, width=40, font=('arial 12 bold'), bd=1, relief="solid")
-        self.e_pesq.place(x=600, y=80)
-        self.la_pesq = Label(master, text='Pesquisa:(Cliente)', font=('arial', 9, 'bold'))
-        self.la_pesq.place(x=485, y=80)
-
-
-        self.line = Label(master, width=60, height=1, bg='#222125')
-        self.line.place(x=30, y=180)
+        self.label1 = Label(self.frame1, text='Agendamento', font='arial 25 bold', bg='#222125', fg='white')
+        self.label1.place(x=385, y=0)
 
         self.e_cliente = Entry(master, width=40, font=('arial 12 bold'), bd=1, relief="solid")
-        self.e_cliente.place(x=30, y=230)
+        self.e_cliente.place(x=30, y=100)
         self.la_cliente = Label(master,text='Cliente:', font=('arial 9 bold'))
-        self.la_cliente.place(x=30, y=209)
+        self.la_cliente.place(x=30, y=69)
 
         self.e_email = Entry(master, width=40, font=('arial 12 bold'), bd=1, relief="solid")
-        self.e_email.place(x=30, y=280)
+        self.e_email.place(x=420, y=100)
         self.la_email = Label(master, text='Email:', font=('arial 9 bold'))
-        self.la_email.place(x=30, y=259)
+        self.la_email.place(x=420, y=69)
 
         self.e_tel = Entry(master, width=15, font=('arial 12 bold'), bd=1, relief="solid")
-        self.e_tel.place(x=450, y=230)
+        self.e_tel.place(x=810, y=100)
         self.la_tel = Label(master, text='Telefone:', font=('arial 9 bold'))
-        self.la_tel.place(x=450, y=209)
+        self.la_tel.place(x=810, y=69)
 
         self.e_cel = Entry(master, width=15, font=('arial 12 bold'), bd=1, relief="solid")
-        self.e_cel.place(x=620, y=230)
+        self.e_cel.place(x=810, y=150)
         self.la_cel = Label(master, text='Celular:', font=('arial 9 bold'))
-        self.la_cel.place(x=620, y=209)
+        self.la_cel.place(x=810, y=129)
 
         self.e_func = Entry(master, width=25, font=('arial 12 bold'), bd=1, relief="solid")
-        self.e_func.place(x=30, y=330)
+        self.e_func.place(x=30, y=150)
         self.la_func = Label(master, text='Funcionário:', font=('arial 9 bold'))
-        self.la_func.place(x=30, y=309)
+        self.la_func.place(x=30, y=129)
 
         self.e_serv = Entry(master, width=25, font=('arial 12 bold'), bd=1, relief="solid")
-        self.e_serv.place(x=300, y=330)
+        self.e_serv.place(x=300, y=150)
         self.la_serv = Label(master, text='Serviço:', font=('arial 9 bold'))
-        self.la_serv.place(x=300, y=309)
+        self.la_serv.place(x=300, y=129)
 
-        self.e_hora = Entry(master, width=6, font=('arial 12 bold'), bd=1, relief="solid")
-        self.e_hora.place(x=30, y=380)
+        self.e_hora = Entry(master, width=10, font=('arial 12 bold'), bd=1, relief="solid")
+        self.e_hora.place(x=560, y=150)
         self.la_hora = Label(master, text='Horário:', font=('arial 9 bold'))
-        self.la_hora.place(x=30, y=359)
+        self.la_hora.place(x=560, y=129)
 
         self.e_data = Entry(master, width=10, font=('arial 12 bold'), bd=1, relief="solid")
-        self.e_data.place(x=120, y=380)
+        self.e_data.place(x=690, y=150)
         self.la_data = Label(master, text='Data:', font=('arial 9 bold'))
-        self.la_data.place(x=120, y=359)
+        self.la_data.place(x=690, y=129)
 
+        self.salvar = Button(master, text='Salvar', bg='#f17215',
+                             bd=2, relief='raise', width=15, height=2, command=self.add_cliente)  # and self.up_tree)
+        self.salvar.place(x=200, y=725)
+        self.clear = Button(master, text='Novo', bg='#f17215',
+                            bd=2, relief='raise', width=15, height=2, command=self.clear)
+        self.clear.place(x=350, y=725)
 
-
-        self.tbox = ttk.Treeview(master,  selectmode='browse')
-        self.tbox["columns"] =  ["#1", "#2", "#3", "#4", "#5","#6","#7","#8" ]
-        self.tbox.bind('<<TreeviewSelect>>', self.entry_tree)
-        self.tbox.place(x=30, y=430)
-        self.tbox.column("#0", stretch=False, width=60)
-        self.tbox.column("#1", stretch=False, width=90)
-        self.tbox.column("#2", stretch=False, width=100)
-        self.tbox.column("#3", stretch=False, width=100)
-        self.tbox.column("#4", stretch=False, width=150)
-        self.tbox.column("#5", stretch=False, width=100)
-        self.tbox.column("#6", stretch=False, width=100)
-        self.tbox.column("#7", stretch=False, width=80)
-        self.tbox.column("#8", stretch=False, width=80)
-        self.tbox.heading("#0", text="Código")
-        self.tbox.heading("#1", text="Nome")
-        self.tbox.heading("#2", text="Telefone")
-        self.tbox.heading("#3", text="Celular")
-        self.tbox.heading("#4", text="Email")
-        self.tbox.heading("#5", text="Funcionário")
-        self.tbox.heading("#6", text="Serviço")
-        self.tbox.heading("#7", text="Hora")
-        self.tbox.heading("#8", text="Data")
-        for row in self.consultar_registros():
-            self.tbox.insert('', 'end', text=row[1], values=(row[2], row[3], row[4],row[5],row[6],row[7],row[8],row[9]))
-
-
-        self.tbox.insert("",0, END)
-        self.tree = ttk.Scrollbar( orient=HORIZONTAL)
-        self.tree.configure(command=self.tbox.xview)
-        self.tbox.configure(xscrollcommand=self.tree.set)
-        self.tree.place(x=30, y=658, width=863)
-
-        self.tbox.insert("", END, 0)
-        self.tree = ttk.Scrollbar(orient=VERTICAL)
-        self.tree.configure(command=self.tbox.yview)
-        self.tbox.configure(yscrollcommand=self.tree.set)
-        self.tree.place(x=895, y=430, height=243)
-
-
-
-
-        self.novo = Button(master, text='Novo', bg='#f17215',
-                               bd=2, relief='raise', width=15, height=2, command=self.novo)
-        self.novo.place(x=80, y=700)
-        self.salvar = Button(master, text='Salvar/Editar', bg='#f17215',
-                               bd=2, relief='raise', width=15, height=2, command=self.salvar)# and self.up_tree)
-        self.salvar.place(x=220, y=700)
-        self.deletar = Button(master, text='Deletar', bg='#f17215',
-                               bd=2, relief='raise', width=15, height=2 , command=self.delete)
-        self.deletar.place(x=360, y=700)
         self.atualiza = Button(master, text='Atualizar', bg='#f17215',
-                                bd=2, relief='raise', width=15, height=2, command=self.atualizar)
-        self.atualiza.place(x=500, y=700)
-        self.pesquisa = Button(master, text='Pesquisar', bg='#222',fg='#fff',
-                               bd=2, relief='raise', width=15, height=2, command=self.search)
-        self.pesquisa.place(x=640, y=700)
+                               bd=2, relief='raise', width=15, height=2, command=self.atualizar)
+        self.atualiza.place(x=500, y=725)
+        self.deletar = Button(master, text='Deletar', bg='#f17215',
+                              bd=2, relief='raise', width=15, height=2, command=self.delete)
+        self.deletar.place(x=650, y=725)
+
+
+        self.tree = ttk.Treeview(master, height=23,  selectmode='browse')
+        self.tree["columns"] =  ["#1", "#2", "#3", "#4", "#5","#6","#7","#8" ]
+        self.tree.bind('<<TreeviewSelect>>', self.entry_tree)
+        self.tree.place(x=30, y=200)
+        self.tree.column("#0", stretch=False, width=90)
+        self.tree.column("#1", stretch=False, width=100)
+        self.tree.column("#2", stretch=False, width=100)
+        self.tree.column("#3", stretch=False, width=100)
+        self.tree.column("#4", stretch=False, width=150)
+        self.tree.column("#5", stretch=False, width=100)
+        self.tree.column("#6", stretch=False, width=100)
+        self.tree.column("#7", stretch=False, width=100)
+        self.tree.column("#8", stretch=False, width=100)
+        self.tree.heading("#0", text="Código")
+        self.tree.heading("#1", text="Nome")
+        self.tree.heading("#2", text="Telefone")
+        self.tree.heading("#3", text="Celular")
+        self.tree.heading("#4", text="Email")
+        self.tree.heading("#5", text="Funcionário")
+        self.tree.heading("#6", text="Serviço")
+        self.tree.heading("#7", text="Hora")
+        self.tree.heading("#8", text="Data")
+        self.get_client()
+
+
+        self.xss = ttk.Scrollbar( orient=HORIZONTAL)
+        self.xss.configure(command=self.tree.xview)
+        self.tree.configure(xscrollcommand=self.xss.set)
+        self.tree.insert("", END)
+        self.xss.place(x=30, y=690, width=945)
+
+
+        self.yss = ttk.Scrollbar(orient=VERTICAL)
+        self.yss.configure(command=self.tree.yview)
+        self.tree.configure(yscrollcommand=self.yss.set)
+        self.tree.insert("", END)
+        self.yss.place(x=975, y=200, height=505)
 
 
 
-    def salvar(self, *args, **kwargs):
+    def view_registros(self, *args, **kwargs):
+        return c.execute("SELECT id, * FROM agend")
+
+    def get_client(self, *args, **kwargs):
+        record = self.tree.get_children()
+        for element in record:
+            self.tree.delete(element)
+        sql = "SELECT * FROM agend ORDER BY nome DESC"
+        c.execute(sql)
+        for row in self.view_registros():
+            self.tree.insert('', 'end', text=row[1],
+                             values=(row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9]))
+
+
+    def add_cliente(self, *args, **kwargs):
         self.cliente = self.e_cliente.get()
         self.tel = self.e_tel.get()
         self.cel = self.e_cel.get()
@@ -150,17 +149,17 @@ class DataBase:
         self.hora = self.e_hora.get()
         self.data = self.e_data.get()
 
-        if self.e_cliente == "" or self.e_cel == "" or self.e_serv == "" or self.e_hora == "" or self.e_data =="":
-                messagebox.showinfo(' Barber Shop', 'CAMPO OBRIGATÓRIO!')
+        if self.e_cliente == "" or self.e_cel == "" or self.e_serv == "" or self.e_hora == "" or self.e_data == "":
+            messagebox.showinfo(' Barber Shop', 'CAMPO OBRIGATÓRIO!')
 
         else:
             sql = "INSERT INTO agend(Nome, Telefone, Celular, Email, Funcionario, Serviço, Hora, Data)VALUES (?,?,?,?,?,?,?,?) "
-            c.execute(sql, (self.cliente , self.tel , self.cel ,self.email , self.func , self.serv ,self.hora , self.data) )
+            c.execute(sql, (self.cliente, self.tel, self.cel, self.email, self.func, self.serv, self.hora, self.data))
             conn.commit()
             messagebox.showinfo('Barber Shop', 'CADASTRO RALIZADO COM SUCESSO!')
+        self.get_client()
 
-    def novo(self, *args, **kwargs):
-        self.e_pesq.delete(0, END)
+    def clear(self, *args, **kwargs):
         self.e_cliente.delete(0, END)
         self.e_tel.delete(0, END)
         self.e_cel.delete(0, END)
@@ -169,10 +168,6 @@ class DataBase:
         self.e_serv.delete(0, END)
         self.e_hora.delete(0, END)
         self.e_data.delete(0, END)
-
-    def search(self,*args, **kwargs):
-        sql = "SELECT * FROM agend WHERE nome=?"
-        result = c.execute(sql, (self.e_pesq.get(),))
 
         for r in result:
             self.nome = r[1]
@@ -204,51 +199,19 @@ class DataBase:
         self.e_data.delete(0, END)
         self.e_data.insert(0, str(self.data))
 
-    def consultar_registros(self):
-        return c.execute("SELECT id, * FROM agend")
-
-    def up_tree(self):
-        for i in self.tbox.get_children():
-            self.tbox.update(i)
-
-    def atualizar(self, *args, **Kwargs):
-        self.up_1 = self.e_cliente.get()
-        self.up_2 = self.e_tel.get()
-        self.up_3 = self.e_cel.get()
-        self.up_4 = self.e_email.get()
-        self.up_5 = self.e_func.get()
-        self.up_6 = self.e_serv.get()
-        self.up_7 = self.e_hora.get()
-        self.up_8 = self.e_data.get()
-
-        query = "UPDATE agend SET nome=?, telefone=?, celular=?, email=?, funcionario=?, serviço=?, hora=?, data=? WHERE nome=?"
-        c.execute(query, (self.up_1, self.up_2, self.up_3, self.up_4, self.up_5, self.up_6,self.up_7, self.up_8, self.e_pesq.get()  ))
-        conn.commit()
-        messagebox.showinfo('SISTEMA DE VENDAS', 'ATUALIZAÇAO REALIZADA COM SUCESSO!')
-
-    def delete(self, *args, **kwargs):
-        c.execute('DELETE FROM agend WHERE id = ?', (id,) )
-        conn.commit()
-        self.tbox.delete()
-        messagebox.showinfo('Barber Shop', 'CLIENTE APAGADO COM SUCESSO!')
 
 
     def entry_tree(self, *args, **kwargs):
-        print(self.tbox.selection())
+        print(self.tree.selection())
 
-
-
-        nome = self.tbox.item(self.tbox.selection())["values"][0]
-        tel = self.tbox.item(self.tbox.selection())["values"][1]
-        cel = self.tbox.item(self.tbox.selection())["values"][2]
-        email = self.tbox.item(self.tbox.selection())["values"][3]
-        func = self.tbox.item(self.tbox.selection())["values"][4]
-        serv = self.tbox.item(self.tbox.selection())["values"][5]
-        hora = self.tbox.item(self.tbox.selection())["values"][6]
-        data = self.tbox.item(self.tbox.selection())["values"][7]
-
-        self.e_pesq.delete(0, END)
-        self.e_pesq.insert(END, str(nome))
+        nome = self.tree.item(self.tree.selection())["values"][0]
+        tel = self.tree.item(self.tree.selection())["values"][1]
+        cel = self.tree.item(self.tree.selection())["values"][2]
+        email = self.tree.item(self.tree.selection())["values"][3]
+        func = self.tree.item(self.tree.selection())["values"][4]
+        serv = self.tree.item(self.tree.selection())["values"][5]
+        hora = self.tree.item(self.tree.selection())["values"][6]
+        data = self.tree.item(self.tree.selection())["values"][7]
 
         self.e_cliente.delete(0, END)
         self.e_cliente.insert(END, str(nome))
@@ -269,9 +232,32 @@ class DataBase:
 
 
 
+    def atualizar(self, *args, **kwargs):
+        self.up_1 = self.e_cliente.get()
+        self.up_2 = self.e_tel.get()
+        self.up_3 = self.e_cel.get()
+        self.up_4 = self.e_email.get()
+        self.up_5 = self.e_func.get()
+        self.up_6 = self.e_serv.get()
+        self.up_7 = self.e_hora.get()
+        self.up_8 = self.e_data.get()
+        query = "UPDATE agend SET nome=?, telefone=?, celular=?, email=?, funcionario=?, serviço=?, hora=?, data=?"
+        c.execute(query, (self.up_1, self.up_2, self.up_3, self.up_4, self.up_5, self.up_6,self.up_7, self.up_8))
+        conn.commit()
+        messagebox.showinfo('SISTEMA DE VENDAS', 'ATUALIZAÇAO REALIZADA COM SUCESSO!')
+        self.get_client()
+
+    def delete(self, *args, **kwargs):
+        sql = 'DELETE FROM agend WHERE id = ?'
+        c.execute(sql, (id,))
+        conn.commit()
+        self.tree.item(self.tree.selection())
+        messagebox.showinfo('Barber Shop', 'CLIENTE APAGADO COM SUCESSO!')
+        self.get_client()
+
 
 janela = Tk()
-main = DataBase(janela)
+main = Agenda(janela)
 janela.geometry('1000x825+300+0')
 janela.resizable(0,0)
 janela.config()
